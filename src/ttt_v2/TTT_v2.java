@@ -300,20 +300,72 @@ public class TTT_v2 {
     }
 
     public static int _GetActivePlayer(String[][] players) {
-        //todooooooooooooooooooo
-        return -1;
+        int player1 = 0;
+        int player2 = 1;
+        int name = 0;
+        int figure = 1;
+        int status = 2;
+        int won = 3;
+        int score = 4;
+        String figure1 = "o";
+        String figure2 = "x";
+
+        if (players[player1][status].equals("active")) {
+            return player1;
+        } else {
+            return player2;
+        }
+
     }
 
-    public static void _SetActivePlayer(String[][] players, int active_player) {
-        //todooooooooooooooooooo
+    public static String[][] _SetActivePlayer(String[][] players, int active_player) {
+        int player1 = 0;
+        int player2 = 1;
+        int name = 0;
+        int figure = 1;
+        int status = 2;
+        int won = 3;
+        int score = 4;
+        String figure1 = "o";
+        String figure2 = "x";
+
+        if (active_player == player1) {
+            players[player1][status] = "active";
+            players[player2][status] = "waiting";
+        } else {
+            players[player1][status] = "waiting";
+            players[player2][status] = "active";
+        }
+
+        return players;
+
+    }
+
+    public static String[][] _RandomSetActivePlayer(String[][] players) {
+        Random rand = new Random();
+        int active = rand.nextInt(2);
+        players = _SetActivePlayer(players, active);
+        return players;
 
     }
 
     public static boolean _IsThereAWinner(String last_step, String player_figure, String[] board) {
-        //_HorizontalWin(String last_step, String player_figure, String[] board)
-        //_VerticalWin (String last_step, String player_figure, String[] board)
-        //_NW_SEWin (String last_step, String player_figure, String[] board)
-        //_SW_NEWin (String last_step, String player_figure, String[] board)
+
+        if (_HorizontalWin(last_step, player_figure, board)) {
+            return true;
+        }
+
+        if (_VerticalWin(last_step, player_figure, board)) {
+            return true;
+        }
+
+        if (_NW_SEWin(last_step, player_figure, board)) {
+            return true;
+        }
+
+        if (_SW_NEWin(last_step, player_figure, board)) {
+            return true;
+        }
 
         return false;
     }
@@ -341,6 +393,7 @@ public class TTT_v2 {
                     won = true;
                     break;
                 }
+                break;
 
             }
 
@@ -361,6 +414,7 @@ public class TTT_v2 {
                     won = true;
                     break;
                 }
+                break;
 
             }
 
@@ -381,6 +435,7 @@ public class TTT_v2 {
                     won = true;
                     break;
                 }
+                break;
 
             }
         }
@@ -411,6 +466,7 @@ public class TTT_v2 {
                     won = true;
                     break;
                 }
+                break;
 
             }
 
@@ -431,6 +487,7 @@ public class TTT_v2 {
                     won = true;
                     break;
                 }
+                break;
 
             }
 
@@ -451,6 +508,7 @@ public class TTT_v2 {
                     won = true;
                     break;
                 }
+                break;
 
             }
         }
@@ -534,23 +592,40 @@ public class TTT_v2 {
 //        _PrintWinningBoard("Jack Gedeon Davis", "o");
 //
         String[][] players = _SetPlayers();
+//        players = _RandomSetActivePlayer(players);
+//        System.out.println(players[0][0]);
+//        System.out.println(players[0][1]);
+//        System.out.println(players[0][2]);
+//      
+//        System.out.println(players[1][0]);
+//        System.out.println(players[1][1]);
+//        System.out.println(players[1][2]);
+//        System.out.println("_________________");
+//        int active = _GetActivePlayer(players);
+//        System.out.println(active);
+//        System.out.println(players[active][0]);
+//        System.out.println(players[active][1]);
+//        System.out.println(players[active][2]);
+//      
 //        System.out.println(_ConvertStepIntoArrayIndex("c3"));
 //        System.out.println(_IsThatStepValid(board2, "a2"));
 //        System.out.println(_IsThatStepValid(board2, "c3"));
-        String step = _GetNextStep("o", board2);
+        String step = _GetNextStep("x", board2);
         int index = _ConvertStepIntoArrayIndex(step);
         System.out.println(index);
         board2 = _PutStepInBoard(board2, step, "x");
         _PrintBoard2(board2, players);
 
-        boolean won = _HorizontalWin(step, "x", board2);
-        boolean won2 = _VerticalWin(step, "x", board2);
-        boolean won3 = _NW_SEWin(step, "x", board2);
-        boolean won4 = _SW_NEWin(step, "x", board2);
-        System.out.println(won);
-        System.out.println(won2);
-        System.out.println(won3);
-        System.out.println(won4);
+//        boolean won = _HorizontalWin(step, "x", board2);
+//        boolean won2 = _VerticalWin(step, "x", board2);
+//        boolean won3 = _NW_SEWin(step, "x", board2);
+//        boolean won4 = _SW_NEWin(step, "x", board2);
+//        System.out.println(won);
+//        System.out.println(won2);
+//        System.out.println(won3);
+//        System.out.println(won4);
+        boolean any_winners = _IsThereAWinner(step, "x", board2);
+        System.out.println(any_winners);
         _PrintBoard2(board2, players);
     }
 
