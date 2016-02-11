@@ -216,18 +216,18 @@ public class TTT_v2 {
         }
         if (tmp.equals("o")) {
             return tmp;
-        } else {
-            _GetFigure(keyboard);
         }
+        tmp = _GetFigure(keyboard);
+
         return tmp;
     }
 
 //GAME Methods
-    public static String _GetNextStep(String player, String[] board) {
+    public static String _GetNextStep(String player_name, String[] board) {
         Scanner keyboard;
         keyboard = new Scanner(System.in);
         String step = "x9";
-        System.out.print("What's our vector Victor " + player + "? ");
+        System.out.print("What's our vector Victor " + player_name + "? ");
         boolean flag = false;
 
         do {
@@ -297,6 +297,23 @@ public class TTT_v2 {
         int next_step = _ConvertStepIntoArrayIndex(step);
         board[next_step] = player_figure;
         return board;
+    }
+
+    public static void _PrintStartingPlayer(String[][] players) {
+        int player1 = 0;
+        int player2 = 1;
+        int name = 0;
+        int figure = 1;
+        int status = 2;
+        int won = 3;
+        int score = 4;
+        String figure1 = "o";
+        String figure2 = "x";
+
+        int active_player = _GetActivePlayer(players);
+
+        System.out.println(players[active_player][name] + ", you start. \nI just want to tell you both good luck. We're all counting on you.");
+
     }
 
     public static int _GetActivePlayer(String[][] players) {
@@ -574,59 +591,162 @@ public class TTT_v2 {
         return won;
     }
 
-    String game[] = new String[5];
-    int game_status = 0; //init, ongoing, won, draw, replay
-    int active_player = 1;
+    public static void _PrintDraw() {
+        String top_border = "      ╔═══════════╦═══════════╗";
+        String banner_top = "   ╔═══════════════════════════════╗";
+        String titans_row = "   ║ Clash of the Titans! It is a  ║";
+        String row1 = "   ║   ___   ___    __    _        ║";
+        String row2 = "   ║  | | \\ | |_)  / /\\  \\ \\    /  ║";
+        String row3 = "   ║  |_|_/ |_| \\ /_/--\\  \\_\\/\\/   ║";
+        String banner_bottom = "   ╚═══════════════════════════════╝";
+        String t_row2 = "	   2╢ X │ O │ X ║";
+        String t_row2b = "	    ╟───┼───┼───╢";
+        String t_row3 = "	   3╢ O │ X │ O ║";
+        String t_bottom_row = "	    ╚═══╧═══╧═══╝";
+
+        System.out.println(top_border);
+        System.out.println(banner_top);
+        System.out.println(titans_row);
+        System.out.println(row1);
+        System.out.println(row2);
+        System.out.println(row3);
+        System.out.println(banner_bottom);
+        System.out.println(t_row2);
+        System.out.println(t_row2b);
+        System.out.println(t_row3);
+        System.out.println(t_bottom_row);
+
+    }
+
+    public static String[][] _SwitchActivePlayer(String[][] players) {
+        int player1 = 0;
+        int player2 = 1;
+        int name = 0;
+        int figure = 1;
+        int status = 2;
+        int won = 3;
+        int score = 4;
+        String figure1 = "o";
+        String figure2 = "x";
+
+        if (players[player1][status].equals("active")) {
+            players[player1][status] = "waiting";
+            players[player2][status] = "active";
+        } else {
+            players[player1][status] = "active";
+            players[player2][status] = "waiting";
+        }
+
+        return players;
+
+    }
+
+    public static void RunGame(String[] game) {
+        int player1 = 0;
+        int player2 = 1;
+        int name = 0;
+        int figure = 1;
+        int status = 2;
+        int won = 3;
+        int score = 4;
+        String figure1 = "o";
+        String figure2 = "x";
+        int step_counter = 0;
+
+        int game_status = 0; //init, ongoing, won, draw, replay
+        int active_player = 1;
+
+        if (game[game_status].equals("init")) {
+            String[] board = _InitBoard();
+            String players[][] = _SetPlayers();
+            players = _RandomSetActivePlayer(players);
+
+            String player_name = players[active_player][name];
+            String player_figure = players[active_player][figure];
+            _PrintStartingPlayer(players);
+            _PrintBoard2(board, players);
+
+            do {
+                active_player = _GetActivePlayer(players);
+
+                String step = _GetNextStep(players[active_player][name], board);
+
+                int step_index = _ConvertStepIntoArrayIndex(step);
+                board = _PutStepInBoard(board, step, players[active_player][figure]);
+                _PrintBoard2(board, players);
+                if (_IsThereAWinner(step, players[active_player][figure], board)) {
+                    step_counter = 10;
+                    _PrintWinningBoard(players[active_player][name], players[active_player][figure]);
+                    break;
+                }
+                _SwitchActivePlayer(players);
+                //switch active player
+
+                step_counter++;
+                if (step_counter == 9) {
+                    _PrintDraw();
+                }
+
+            } while (step_counter < 9);
+
+        }
+
+    }
 
     public static void main(String[] args) {
 
-//        String[] board = _InitBoard();
-//        _PrintBoard(board);
-//
-        String[] board2 = _RandomInitBoard2();
-        _PrintBoard(board2);
-//
-//        _PrintWinningBoard("Jack", "o");
-//        _PrintWinningBoard("Jackie", "o");
-//        _PrintWinningBoard("Jack London", "o");
-//        _PrintWinningBoard("Jack Gedeon Davis", "o");
-//
-        String[][] players = _SetPlayers();
-//        players = _RandomSetActivePlayer(players);
-//        System.out.println(players[0][0]);
-//        System.out.println(players[0][1]);
-//        System.out.println(players[0][2]);
-//      
-//        System.out.println(players[1][0]);
-//        System.out.println(players[1][1]);
-//        System.out.println(players[1][2]);
-//        System.out.println("_________________");
-//        int active = _GetActivePlayer(players);
-//        System.out.println(active);
-//        System.out.println(players[active][0]);
-//        System.out.println(players[active][1]);
-//        System.out.println(players[active][2]);
-//      
-//        System.out.println(_ConvertStepIntoArrayIndex("c3"));
-//        System.out.println(_IsThatStepValid(board2, "a2"));
-//        System.out.println(_IsThatStepValid(board2, "c3"));
-        String step = _GetNextStep("x", board2);
-        int index = _ConvertStepIntoArrayIndex(step);
-        System.out.println(index);
-        board2 = _PutStepInBoard(board2, step, "x");
-        _PrintBoard2(board2, players);
+        String game[] = new String[5];
+        int game_status = 0;
+        game[game_status] = "init";
+        RunGame(game);
 
-//        boolean won = _HorizontalWin(step, "x", board2);
-//        boolean won2 = _VerticalWin(step, "x", board2);
-//        boolean won3 = _NW_SEWin(step, "x", board2);
-//        boolean won4 = _SW_NEWin(step, "x", board2);
-//        System.out.println(won);
-//        System.out.println(won2);
-//        System.out.println(won3);
-//        System.out.println(won4);
-        boolean any_winners = _IsThereAWinner(step, "x", board2);
-        System.out.println(any_winners);
-        _PrintBoard2(board2, players);
+////        String[] board = _InitBoard();
+////        _PrintBoard(board);
+////
+//        String[] board2 = _RandomInitBoard2();
+//        _PrintBoard(board2);
+////
+////        _PrintWinningBoard("Jack", "o");
+////        _PrintWinningBoard("Jackie", "o");
+////        _PrintWinningBoard("Jack London", "o");
+////        _PrintWinningBoard("Jack Gedeon Davis", "o");
+////
+//        String[][] players = _SetPlayers();
+////        players = _RandomSetActivePlayer(players);
+////        System.out.println(players[0][0]);
+////        System.out.println(players[0][1]);
+////        System.out.println(players[0][2]);
+////      
+////        System.out.println(players[1][0]);
+////        System.out.println(players[1][1]);
+////        System.out.println(players[1][2]);
+////        System.out.println("_________________");
+////        int active = _GetActivePlayer(players);
+////        System.out.println(active);
+////        System.out.println(players[active][0]);
+////        System.out.println(players[active][1]);
+////        System.out.println(players[active][2]);
+////      
+////        System.out.println(_ConvertStepIntoArrayIndex("c3"));
+////        System.out.println(_IsThatStepValid(board2, "a2"));
+////        System.out.println(_IsThatStepValid(board2, "c3"));
+//        String step = _GetNextStep("x", board2);
+//        int index = _ConvertStepIntoArrayIndex(step);
+//        System.out.println(index);
+//        board2 = _PutStepInBoard(board2, step, "x");
+//        _PrintBoard2(board2, players);
+//
+////        boolean won = _HorizontalWin(step, "x", board2);
+////        boolean won2 = _VerticalWin(step, "x", board2);
+////        boolean won3 = _NW_SEWin(step, "x", board2);
+////        boolean won4 = _SW_NEWin(step, "x", board2);
+////        System.out.println(won);
+////        System.out.println(won2);
+////        System.out.println(won3);
+////        System.out.println(won4);
+//        boolean any_winners = _IsThereAWinner(step, "x", board2);
+//        System.out.println(any_winners);
+//        _PrintBoard2(board2, players);
     }
 
 }
