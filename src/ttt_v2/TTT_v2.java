@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ttt_v2;
-
 import java.util.Random;
 import java.util.Scanner;
 
@@ -25,42 +19,6 @@ public class TTT_v2 {
         for (int i = 0; i < 9; i++) {
             board[i] = (" ");
         }
-        return board;
-    }
-
-    public static String[] _RandomInitBoard() {
-        Random rand;
-        rand = new Random();
-        String board[] = new String[9];
-        for (int i = 0; i < 8; i++) {
-            board[i] = ("x");
-            board[++i] = (" ");
-            i = i + rand.nextInt(2);
-            if (i < 9) {
-                board[i] = ("o");
-            }
-        }
-
-        board[8] = " ";
-
-        return board;
-    }
-
-    public static String[] _RandomInitBoard2() {
-        Random rand;
-        rand = new Random();
-        String board[] = new String[9];
-        for (int i = 0; i < 8; i++) {
-            board[i] = ("x");
-            board[++i] = (" ");
-            i = i + rand.nextInt(2);
-            if (i < 9) {
-                board[i] = (" ");
-            }
-        }
-
-        board[8] = " ";
-
         return board;
     }
 
@@ -107,31 +65,6 @@ public class TTT_v2 {
         System.out.println(row_separator);
         System.out.println(third_row);
         System.out.println(bottom_border);
-        System.out.println();
-        System.out.println();
-
-    }
-
-    public static void _PrintBoard(String[] board) {
-
-        String header_row = "	      A   B   C";
-        String top_border = "	    ╔═╧═╤═╧═╤═╧═╗";
-        String first_row = "	   1╢ " + board[0] + " │ " + board[1] + " │ " + board[2] + " ║";
-        String row_separator = "	    ╟───┼───┼───╢";
-        String second_row = "	   2╢ " + board[3] + " │ " + board[4] + " │ " + board[5] + " ║";
-        String third_row = "	   3╢ " + board[6] + " │ " + board[7] + " │ " + board[8] + " ║";
-        String bottom_border = "	    ╚═══╧═══╧═══╝";
-
-        System.out.println(header_row);
-        System.out.println(top_border);
-        System.out.println(first_row);
-        System.out.println(row_separator);
-        System.out.println(second_row);
-        System.out.println(row_separator);
-        System.out.println(third_row);
-        System.out.println(bottom_border);
-        System.out.println();
-        System.out.println();
 
     }
 
@@ -202,7 +135,7 @@ public class TTT_v2 {
 
         players[player1][figure] = _GetFigure(keyboard);
 
-        System.out.print("Can I have the opposing player's name: ");
+        System.out.print("\nCan I have the opposing player's name: ");
         players[player2][name] = keyboard.nextLine();
         players[player2][figure] = (players[player1][figure].equals("o")) ? "x" : "o";
         return players;
@@ -210,6 +143,7 @@ public class TTT_v2 {
 
     public static String _GetFigure(Scanner keyboard) {
         System.out.print("Choose your figure. Enter x or o here: ");
+       
         String tmp = keyboard.nextLine();
         if (tmp.equals("x")) {
             return tmp;
@@ -227,6 +161,7 @@ public class TTT_v2 {
         Scanner keyboard;
         keyboard = new Scanner(System.in);
         String step = "x9";
+        System.out.println(player_name+"... ");
         System.out.print("What's our vector Victor? ");
         boolean flag = false;
 
@@ -242,6 +177,10 @@ public class TTT_v2 {
     }
 
     public static boolean _IsThatStepValid(String[] board, String step) {
+        if (step.length()!=2){
+            return false;
+        }
+        ///
         int step_index = _ConvertStepIntoArrayIndex(step);
         if (step_index == -1) {
             return false;
@@ -312,8 +251,9 @@ public class TTT_v2 {
 
         int active_player = _GetActivePlayer(players);
 
-        System.out.println("I just want to tell you both good luck. \nWe're all counting on you.");
+        System.out.println("\nI just want to tell you both good luck. \nWe're all counting on you.\n");
         System.out.println(players[active_player][name] + ", you start.");
+        System.out.println();
 
     }
 
@@ -592,33 +532,6 @@ public class TTT_v2 {
         return won;
     }
 
-    public static void _PrintDraw() {
-        String top_border = "      ╔═══════════╦═══════════╗";
-        String banner_top = "   ╔═══════════════════════════════╗";
-        String titans_row = "   ║ Clash of the Titans! It is a  ║";
-        String row1 = "   ║   ___   ___    __    _        ║";
-        String row2 = "   ║  | | \\ | |_)  / /\\  \\ \\    /  ║";
-        String row3 = "   ║  |_|_/ |_| \\ /_/--\\  \\_\\/\\/   ║";
-        String banner_bottom = "   ╚═══════════════════════════════╝";
-        String t_row2 = "	   2╢ X │ O │ X ║";
-        String t_row2b = "	    ╟───┼───┼───╢";
-        String t_row3 = "	   3╢ O │ X │ O ║";
-        String t_bottom_row = "	    ╚═══╧═══╧═══╝";
-
-        System.out.println(top_border);
-        System.out.println(banner_top);
-        System.out.println(titans_row);
-        System.out.println(row1);
-        System.out.println(row2);
-        System.out.println(row3);
-        System.out.println(banner_bottom);
-        System.out.println(t_row2);
-        System.out.println(t_row2b);
-        System.out.println(t_row3);
-        System.out.println(t_bottom_row);
-
-    }
-
     
     public static void _PrintDraw2(String[] board, String[][] players) {
 
@@ -669,16 +582,6 @@ public class TTT_v2 {
         System.out.println(row2);
         System.out.println(row3);
         System.out.println(banner_bottom);
-
-
-//        System.out.println(top_banner_bottom);
-//        System.out.println(header_row);
-//        System.out.println(top_border);
-//        System.out.println(first_row);
-//        System.out.println(row_separator);
-
-        
-        
         System.out.println(second_row);
         System.out.println(row_separator);
         System.out.println(third_row);
@@ -771,12 +674,12 @@ public class TTT_v2 {
         } while (step_counter < 9);
 
         if (step_counter == 10) {
-            System.out.println("Do you wan to replay? y/n ");
+            System.out.print("Do you wan to replay? y/n ");
             if (keyboard.nextLine().contains("y")) {
                 game[game_status] = "replay";
                 RunGame(game, board, players);
             } else {
-                System.out.println(" Oh... ");
+                System.out.println(" Oh... Looks like I picked the wrong week to quit games.\n");
 
             }
 
@@ -796,53 +699,6 @@ public class TTT_v2 {
 
         RunGame(game, board, players);
 
-////        String[] board = _InitBoard();
-////        _PrintBoard(board);
-////
-//        String[] board2 = _RandomInitBoard2();
-//        _PrintBoard(board2);
-////
-////        _PrintWinningBoard("Jack", "o");
-////        _PrintWinningBoard("Jackie", "o");
-////        _PrintWinningBoard("Jack London", "o");
-////        _PrintWinningBoard("Jack Gedeon Davis", "o");
-////
-//        String[][] players = _SetPlayers();
-////        players = _RandomSetActivePlayer(players);
-////        System.out.println(players[0][0]);
-////        System.out.println(players[0][1]);
-////        System.out.println(players[0][2]);
-////      
-////        System.out.println(players[1][0]);
-////        System.out.println(players[1][1]);
-////        System.out.println(players[1][2]);
-////        System.out.println("_________________");
-////        int active = _GetActivePlayer(players);
-////        System.out.println(active);
-////        System.out.println(players[active][0]);
-////        System.out.println(players[active][1]);
-////        System.out.println(players[active][2]);
-////      
-////        System.out.println(_ConvertStepIntoArrayIndex("c3"));
-////        System.out.println(_IsThatStepValid(board2, "a2"));
-////        System.out.println(_IsThatStepValid(board2, "c3"));
-//        String step = _GetNextStep("x", board2);
-//        int index = _ConvertStepIntoArrayIndex(step);
-//        System.out.println(index);
-//        board2 = _PutStepInBoard(board2, step, "x");
-//        _PrintBoard2(board2, players);
-//
-////        boolean won = _HorizontalWin(step, "x", board2);
-////        boolean won2 = _VerticalWin(step, "x", board2);
-////        boolean won3 = _NW_SEWin(step, "x", board2);
-////        boolean won4 = _SW_NEWin(step, "x", board2);
-////        System.out.println(won);
-////        System.out.println(won2);
-////        System.out.println(won3);
-////        System.out.println(won4);
-//        boolean any_winners = _IsThereAWinner(step, "x", board2);
-//        System.out.println(any_winners);
-//        _PrintBoard2(board2, players);
     }
 
 }
