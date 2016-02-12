@@ -652,6 +652,7 @@ public class TTT_v2 {
         String figure1 = "o";
         String figure2 = "x";
         int step_counter = 0;
+        Scanner keyboard = new Scanner(System.in);
 
         int game_status = 0; //init, ongoing, won, draw, replay
         int active_player = 1;
@@ -688,6 +689,19 @@ public class TTT_v2 {
                 }
 
             } while (step_counter < 9);
+            
+            if (step_counter == 10){
+                System.out.println("Do you wan to replay? y/n ");
+                if (keyboard.nextLine().contains("y")){
+                    game[game_status]="init";
+                    RunGame(game);
+                }
+                else{
+                    System.out.println(" Oh... ");
+                            
+                }
+                
+            }
 
         }
 
