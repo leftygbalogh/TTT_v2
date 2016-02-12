@@ -227,7 +227,7 @@ public class TTT_v2 {
         Scanner keyboard;
         keyboard = new Scanner(System.in);
         String step = "x9";
-        System.out.print("What's our vector Victor " + player_name + "? ");
+        System.out.print("What's our vector Victor? ");
         boolean flag = false;
 
         do {
@@ -312,7 +312,8 @@ public class TTT_v2 {
 
         int active_player = _GetActivePlayer(players);
 
-        System.out.println(players[active_player][name] + ", you start. \nI just want to tell you both good luck. We're all counting on you.");
+        System.out.println("I just want to tell you both good luck. \nWe're all counting on you.");
+        System.out.println(players[active_player][name] + ", you start.");
 
     }
 
@@ -618,6 +619,75 @@ public class TTT_v2 {
 
     }
 
+    
+    public static void _PrintDraw2(String[] board, String[][] players) {
+
+        int player1 = 0;
+        int player2 = 1;
+        int name = 0;
+        int figure = 1;
+        int status = 2;
+        int won = 3;
+        int score = 4;
+        String figure1 = "o";
+        String figure2 = "x";
+        String[] tmp;
+
+        tmp = players[player1][name].split("");
+        String player1_first_initial = tmp[0];
+
+        tmp = players[player2][name].split("");
+        String player2_first_initial = tmp[0];
+        String player1_figure = players[player1][figure];
+        String player2_figure = players[player2][figure];
+
+        String top_banner_border = "      ╔═══════════╦═══════════╗";
+        String who_plays_row = "      ║ " + player1_first_initial + " plays " + player1_figure + " ║ " + player2_first_initial + " plays " + player2_figure + " ║";
+        String top_banner_bottom = "      ╚═════╦═════╩═════╦═════╝";
+        String header_row = "	    ║ A   B   C ║";
+        String top_border = "	    ╠═╧═╤═╧═╤═╧═╣";
+        String first_row = "	   1╢ " + board[0] + " │ " + board[1] + " │ " + board[2] + " ║";
+        String row_separator = "	    ╟───┼───┼───╢";
+        String second_row = "	   2╢ " + board[3] + " │ " + board[4] + " │ " + board[5] + " ║";
+        String third_row = "	   3╢ " + board[6] + " │ " + board[7] + " │ " + board[8] + " ║";
+        String bottom_border = "	    ╚═══╧═══╧═══╝";
+
+        String banner_top = "   ╔═══════════════════════════════╗";
+        String titans_row = "   ║ Clash of the Titans! It is a  ║";
+        String row1 = "   ║   ___   ___    __    _        ║";
+        String row2 = "   ║  | | \\ | |_)  / /\\  \\ \\    /  ║";
+        String row3 = "   ║  |_|_/ |_| \\ /_/--\\  \\_\\/\\/   ║";
+        String banner_bottom = "   ╚═══════════════════════════════╝";
+        
+        
+        System.out.println(top_banner_border);
+        System.out.println(who_plays_row);
+
+        System.out.println(banner_top);
+        System.out.println(titans_row);
+        System.out.println(row1);
+        System.out.println(row2);
+        System.out.println(row3);
+        System.out.println(banner_bottom);
+
+
+//        System.out.println(top_banner_bottom);
+//        System.out.println(header_row);
+//        System.out.println(top_border);
+//        System.out.println(first_row);
+//        System.out.println(row_separator);
+
+        
+        
+        System.out.println(second_row);
+        System.out.println(row_separator);
+        System.out.println(third_row);
+        System.out.println(bottom_border);
+        System.out.println();
+
+
+    }
+    
     public static String[][] _SwitchActivePlayer(String[][] players) {
         int player1 = 0;
         int player2 = 1;
@@ -695,7 +765,7 @@ public class TTT_v2 {
 
             step_counter++;
             if (step_counter == 9) {
-                _PrintDraw();
+                _PrintDraw2(board, players);
             }
 
         } while (step_counter < 9);
