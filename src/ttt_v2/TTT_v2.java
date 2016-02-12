@@ -641,7 +641,7 @@ public class TTT_v2 {
 
     }
 
-    public static void RunGame(String[] game) {
+    public static void RunGame(String[] game, String board[], String[][] players) {
         int player1 = 0;
         int player2 = 1;
         int name = 0;
@@ -658,49 +658,56 @@ public class TTT_v2 {
         int active_player = 1;
 
         if (game[game_status].equals("init")) {
-            String[] board = _InitBoard();
-            String players[][] = _SetPlayers();
+
             players = _RandomSetActivePlayer(players);
 
             String player_name = players[active_player][name];
             String player_figure = players[active_player][figure];
             _PrintStartingPlayer(players);
             _PrintBoard2(board, players);
+        }
 
-            do {
-                active_player = _GetActivePlayer(players);
+        if (game[game_status].equals("replay")) {
+            board = _InitBoard();
+            players = _RandomSetActivePlayer(players);
 
-                String step = _GetNextStep(players[active_player][name], board);
+            String player_name = players[active_player][name];
+            String player_figure = players[active_player][figure];
+            _PrintStartingPlayer(players);
+            _PrintBoard2(board, players);
+        }
 
-                int step_index = _ConvertStepIntoArrayIndex(step);
-                board = _PutStepInBoard(board, step, players[active_player][figure]);
-                _PrintBoard2(board, players);
-                if (_IsThereAWinner(step, players[active_player][figure], board)) {
-                    step_counter = 10;
-                    _PrintWinningBoard(players[active_player][name], players[active_player][figure]);
-                    break;
-                }
-                _SwitchActivePlayer(players);
-                //switch active player
+        do {
+            active_player = _GetActivePlayer(players);
 
-                step_counter++;
-                if (step_counter == 9) {
-                    _PrintDraw();
-                }
+            String step = _GetNextStep(players[active_player][name], board);
 
-            } while (step_counter < 9);
-            
-            if (step_counter == 10){
-                System.out.println("Do you wan to replay? y/n ");
-                if (keyboard.nextLine().contains("y")){
-                    game[game_status]="init";
-                    RunGame(game);
-                }
-                else{
-                    System.out.println(" Oh... ");
-                            
-                }
-                
+            int step_index = _ConvertStepIntoArrayIndex(step);
+            board = _PutStepInBoard(board, step, players[active_player][figure]);
+            _PrintBoard2(board, players);
+            if (_IsThereAWinner(step, players[active_player][figure], board)) {
+                step_counter = 10;
+                _PrintWinningBoard(players[active_player][name], players[active_player][figure]);
+                break;
+            }
+            _SwitchActivePlayer(players);
+            //switch active player
+
+            step_counter++;
+            if (step_counter == 9) {
+                _PrintDraw();
+            }
+
+        } while (step_counter < 9);
+
+        if (step_counter == 10) {
+            System.out.println("Do you wan to replay? y/n ");
+            if (keyboard.nextLine().contains("y")) {
+                game[game_status] = "replay";
+                RunGame(game, board, players);
+            } else {
+                System.out.println(" Oh... ");
+
             }
 
         }
@@ -712,7 +719,12 @@ public class TTT_v2 {
         String game[] = new String[5];
         int game_status = 0;
         game[game_status] = "init";
-        RunGame(game);
+        String[] board;
+        String players[][];
+        board = _InitBoard();
+        players = _SetPlayers();
+
+        RunGame(game, board, players);
 
 ////        String[] board = _InitBoard();
 ////        _PrintBoard(board);
